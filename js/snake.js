@@ -40,13 +40,13 @@ let is_alive =true;
 
 document.addEventListener("keydown", event =>
 {
-	if (event.key == "w")
+	if (event.key == "w" && direction != "SOUTH")
 		direction = "NORTH";
-	else if (event.key == "a")
+	else if (event.key == "a" && direction != "WEST")
 		direction = "EAST";
-	else if (event.key == "s")
+	else if (event.key == "s" && direction != "NORTH")
 		direction = "SOUTH"
-	else if (event.key == "d")
+	else if (event.key == "d" && direction != "EAST")
 		direction = "WEST"
 });
 
