@@ -72,8 +72,7 @@ const moveSnake = () =>
 		snake[i].y = snake[i - 1].y;
 	}
 	
-	if (snake[0].x < 0 || snake[0].x + 20 > 1280 || snake[1].y < 0 || snake[1].y + 20 > 720)
-		is_alive = false;
+
 	if (direction == "WEST")
 		snake[0].x += 20;
 	if (direction == "EAST")
@@ -82,6 +81,8 @@ const moveSnake = () =>
 		snake[0].y -= 20;
 	if (direction == "SOUTH")
 		snake[0].y += 20;
+	if (snake[0].x < 0 || snake[0].x + 20 > 1280 || snake[0].y < 0 || snake[0].y + 20 > 720)
+		is_alive = false;
 	checkSchwanz();
 }
 
@@ -109,7 +110,7 @@ const gameloop = () =>
 	{
 		setTimeout(function onTick()
 		{
-			moveSnake();
+			drawSnake();
 			let snack = document.getElementById("snack");
 			if (parseInt(snack.style.left) == snake[0].x && parseInt(snack.style.top) == snake[0].y )
 			{
@@ -120,7 +121,7 @@ const gameloop = () =>
 				let scoreboard = document.getElementById("scoreboard");
 				scoreboard.innerHTML = "score: " + score;
 			}
-			drawSnake();
+			moveSnake();
 			gameloop();
 		}, 100)
 	}
