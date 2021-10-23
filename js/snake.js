@@ -7,7 +7,7 @@ const randomNumber = (max, min) =>
 	return Math.floor((Math.random() * max) + min);
 }
 
-let game;
+let game = [];
 
 const randomSnack = () =>
 {
