@@ -7,23 +7,28 @@ const randomNumber = (max, min) =>
 	return Math.floor((Math.random() * max) + min);
 }
 
-let game = [];
+let game = [{x: 0, y: 0}];
 
 const randomSnack = () =>
 {
 	let snack = document.getElementById("snack");
 	let num = game[randomNumber(game.length - 1, 0)];
-	snack.style.top = num.x + "px";
-	snack.style.left = num.y + "px";
+	snack.style.left = num.x + "px";
+	snack.style.top = num.y + "px";
 }
 
-let snake = [ {x: 640,y: 360}, {x: 640 - 25,y: 360 }, {x: 640 - 50 ,y: 360} ]
-let snake1 = [ {x: 640,y: 360}, {x: 640 - 25,y: 360 }, {x: 640 - 50 ,y: 360} ]
+let snake = [ {x: 0,y: 0}]
 
 const endgame = () =>
 {
 	alert("Your final Score is: " + score);
 	document.getElementById("startbtn").style.display = "initial";
+	while (snake.length > 2)
+		snake.pop();
+	while (game.length > 1)
+		game.pop();
+	game[0] = {x:0, y:0};
+	score = 0;
 }
 
 let is_alive =true;
@@ -40,6 +45,19 @@ document.addEventListener("keydown", event =>
 		direction = "WEST"
 });
 
+const checkSchwanz = () =>
+{
+
+	for (let i = 1; i < snake.length; i++)
+	{
+		if (snake[0].x == snake[i].x && snake[0].y == snake[i].y)
+		{
+			is_alive = false;
+			break ;
+		}
+	}
+}
+
 const moveSnake = () =>
 {
 	let i;
@@ -48,16 +66,18 @@ const moveSnake = () =>
 		snake[i].x = snake[i - 1].x;
 		snake[i].y = snake[i - 1].y;
 	}
-	if (direction == "WEST")
-		snake[0].x += 25;
-	if (direction == "EAST")
-		snake[0].x -= 25;
-	if (direction == "NORTH")
-		snake[0].y -= 25;
-	if (direction == "SOUTH")
-		snake[0].y += 25;
-	if (snake[0].x < 0 || snake[0].x + 25 > 1280 || snake[1].y < 0 || snake[1].y + 25 > 720)
+	
+	if (snake[0].x < 0 || snake[0].x + 20 > 1280 || snake[1].y < 0 || snake[1].y + 20 > 720)
 		is_alive = false;
+	if (direction == "WEST")
+		snake[0].x += 20;
+	if (direction == "EAST")
+		snake[0].x -= 20;
+	if (direction == "NORTH")
+		snake[0].y -= 20;
+	if (direction == "SOUTH")
+		snake[0].y += 20;
+	checkSchwanz();
 }
 
 const drawSnake = () =>
@@ -86,11 +106,11 @@ const gameloop = () =>
 		{
 			moveSnake();
 			let snack = document.getElementById("snack");
-			if (parseInt(snack.style.left) > snake[0].x && parseInt(snack.style.left) < (snake[0].x + 25) && parseInt(snack.style.top) > snake[0].y  && parseInt(snack.style.top)  < (snake[0].y + 25))
+			if (parseInt(snack.style.left) == snake[0].x && parseInt(snack.style.top) == snake[0].y )
 			{
 
 				randomSnack();
-				snake.push({x: snake[snake.length - 1].x + 25, y: snake[snake.length - 1].y})
+				snake.push({x: snake[snake.length - 1].x + 20, y: snake[snake.length - 1].y})
 				score++;
 			}
 			drawSnake();
@@ -100,7 +120,7 @@ const gameloop = () =>
 	else
 	{
 		endgame();
-		snake = JSON.parse(JSON.stringify(snake1));
+
 	}
 }
 
@@ -114,11 +134,14 @@ const start = ()=>
 			game.push({x:j, y:i});
 		}
 	}
+	snake[0].x = 640;
+	snake[0].y = 360;	
+	snake.push({x:snake[0].x - 25, y:snake[0].y});
+	snake.push({x:snake[0].x - 50, y:snake[0].y});
 	document.getElementById("startbtn").style.display = "none";
 	is_alive = true;
 	randomSnack();
 	gameloop();
-	game = {};
 }
 
 
