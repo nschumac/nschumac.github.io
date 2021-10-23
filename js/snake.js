@@ -7,18 +7,14 @@ const randomNumber = (max, min) =>
 	return Math.floor((Math.random() * max) + min);
 }
 
-const isDead = () =>
-{
-
-
-	return true;
-}
+let game;
 
 const randomSnack = () =>
 {
 	let snack = document.getElementById("snack");
-	snack.style.top = randomNumber(720 - snack.style.height, 0) + "px";
-	snack.style.left = randomNumber(1280 - snack.style.width, 0) + "px";
+	let num = game[randomNumber(game.length - 1, 0)];
+	snack.style.top = num.x + "px";
+	snack.style.left = num.y + "px";
 }
 
 let snake = [ {x: 640,y: 360}, {x: 640 - 25,y: 360 }, {x: 640 - 50 ,y: 360} ]
@@ -111,10 +107,18 @@ const gameloop = () =>
 
 const start = ()=>
 {
+	for (let i = 0; i < 720; i += 20)
+	{
+		for (let j = 0;j < 1280; j += 20)
+		{
+			game.push({x:j, y:i});
+		}
+	}
 	document.getElementById("startbtn").style.display = "none";
 	is_alive = true;
 	randomSnack();
 	gameloop();
+	game = {};
 }
 
 
