@@ -7,13 +7,6 @@ const randomNumber = (max, min) =>
 	return Math.floor((Math.random() * max) + min);
 }
 
-const isDead = () =>
-{
-
-
-	return true;
-}
-
 const randomSnack = () =>
 {
 	let snack = document.getElementById("snack");
@@ -37,11 +30,11 @@ document.addEventListener("keydown", event =>
 	if (event.key == "w")
 		direction = "NORTH";
 	else if (event.key == "a")
-		direction = "WEST";
+		direction = "EAST";
 	else if (event.key == "s")
 		direction = "SOUTH"
 	else if (event.key == "d")
-		direction = "EAST"
+		direction = "WEST"
 });
 
 const moveSnake = () =>
@@ -53,9 +46,9 @@ const moveSnake = () =>
 		snake[i].y = snake[i - 1].y;
 	}
 	if (direction == "WEST")
-		snake[0].x -= 25;
-	if (direction == "EAST")
 		snake[0].x += 25;
+	if (direction == "EAST")
+		snake[0].x -= 25;
 	if (direction == "NORTH")
 		snake[0].y -= 25;
 	if (direction == "SOUTH")
