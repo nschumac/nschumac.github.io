@@ -19,9 +19,13 @@ const randomSnack = () =>
 
 let snake = [ {x: 0,y: 0}]
 
+const getscore= () =>
+{
+	return score;
+}
+
 const endgame = () =>
 {
-	alert("Your final Score is: " + score);
 	document.getElementById("startbtn").style.display = "initial";
 	while (snake.length > 2)
 		snake.pop();
@@ -29,6 +33,7 @@ const endgame = () =>
 		game.pop();
 	game[0] = {x:0, y:0};
 	score = 0;
+
 }
 
 let is_alive =true;
@@ -110,20 +115,20 @@ const gameloop = () =>
 			{
 
 				randomSnack();
-				snake.push({x: snake[snake.length - 1].x + 20, y: snake[snake.length - 1].y})
+				snake.push({x: snake[snake.length - 1].x, y: snake[snake.length - 1].y})
 				score++;
+				let scoreboard = document.getElementById("scoreboard");
+				scoreboard.innerHTML = "score: " + score;
 			}
 			drawSnake();
-			gameloop();		
+			gameloop();
 		}, 100)
 	}
 	else
 	{
 		endgame();
-
 	}
 }
-
 
 const start = ()=>
 {
@@ -138,10 +143,10 @@ const start = ()=>
 	snake[0].y = 360;	
 	snake.push({x:snake[0].x - 25, y:snake[0].y});
 	snake.push({x:snake[0].x - 50, y:snake[0].y});
+	let scoreboard = document.getElementById("scoreboard");
+	scoreboard.innerHTML = "score: 0";
 	document.getElementById("startbtn").style.display = "none";
 	is_alive = true;
 	randomSnack();
 	gameloop();
 }
-
-
